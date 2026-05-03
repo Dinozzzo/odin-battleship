@@ -1,0 +1,24 @@
+{
+  "name": "odin-battleship",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dinozzzo/odin-battleship.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Dinozzzo/odin-battleship/issues"
+  },
+  "homepage": "https://github.com/Dinozzzo/odin-battleship#readme",
+  "devDependencies": {
+    "jest": "^30.3.0"
+  }
+}
