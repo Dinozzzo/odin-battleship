@@ -1,5 +1,5 @@
 export { Gameboard };
-import { Ship } from "./ship.js";
+import { Ship } from "./  ship.js";
 
 function Gameboard() {
   const ships = [];

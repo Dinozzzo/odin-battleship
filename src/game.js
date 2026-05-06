@@ -17,6 +17,16 @@ function renderBoard(container) {
 renderBoard(playerBoard);
 renderBoard(npcBoard);
 
-// PLAYERS
+// CREATE PLAYERS
 const player = Player();
 const npc = Player();
+
+// CREATE SHIPS
+const carrier = Ship(5);
+const battleship = Ship(4);
+const cruiser = Ship(3);
+const submarine = Ship(3);
+const destroyer = Ship(2);
+
+// PLACE THE SHIPS
+player.gameboard.placeShip();
