@@ -37,6 +37,13 @@ function Gameboard() {
       }
     },
 
-    allShipsSunk() {},
+    allShipsSunk() {
+      for (const ship of ships) {
+        if (ship.isSunk() !== true) {
+          return false;
+        }
+      }
+      return true;
+    },
   };
 }
