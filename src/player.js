@@ -1,4 +1,5 @@
-import { Gameboard } from "../src/gameboard.js";
+import { Gameboard } from "./gameboard.js";
+export { Player };
 
 function Player() {
   const gameboard = Gameboard();
@@ -6,6 +7,3 @@ function Player() {
     gameboard,
   };
 }
-
-const player = Player();
-const npc = Player();
