@@ -1,16 +1,33 @@
 export { Gameboard };
-import { Ship } from "./  ship.js";
 
 function Gameboard() {
   const ships = [];
   const missedAttacks = [];
+
   return {
     // RETURN THE ARRAY OF SHIPS
     ships,
     missedAttacks,
 
     // PLACE THE SHIP ON THE GAMEBOARD
-    placeShip(ship, coordinates, direction) {
+    placeShip(ship, start, direction) {
+      const coordinates = [];
+      const [x, y] = start;
+
+      if (direction === "horizontal") {
+        for (let i = 0; i < ship.length; i++) {
+          const coord = [x + i, y];
+          coordinates.push(coord);
+        }
+      }
+
+      if (direction === "vertical") {
+        for (let i = 0; i < ship.length; i++) {
+          const coord = [x, y + i];
+          coordinates.push(coord);
+        }
+      }
+
       ships.push({ ship, coordinates });
     },
 
@@ -18,31 +35,31 @@ function Gameboard() {
     receiveAttack(coordinates) {
       let hit = false;
 
-      // CHECK IF SHIP IS AT THE POSITION
       for (let i = 0; i < ships.length; i++) {
         const shipData = ships[i];
 
-        if (
-          shipData.coordinates[0] === coordinates[0] &&
-          shipData.coordinates[1] === coordinates[1]
-        ) {
-          shipData.ship.hit(); // ATTACK LANDED
-          hit = true;
+        for (let j = 0; j < shipData.coordinates.length; j++) {
+          const coord = shipData.coordinates[j];
+
+          if (coord[0] === coordinates[0] && coord[1] === coordinates[1]) {
+            shipData.ship.hit();
+            hit = true;
+          }
         }
       }
 
-      // IF SHIP IS NOT ATTACKED
       if (!hit) {
         missedAttacks.push(coordinates);
       }
     },
 
     allShipsSunk() {
-      for (const ship of ships) {
-        if (ship.isSunk() !== true) {
+      for (const shipData of ships) {
+        if (shipData.ship.isSunk() !== true) {
           return false;
         }
       }
+
       return true;
     },
   };
