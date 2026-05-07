@@ -1,25 +1,15 @@
 import { Ship } from "./ship.js";
 import { Gameboard } from "./gameboard.js";
 import { Player } from "./player.js";
-
-// CREATE BOARD FOR BOTH PLAYERS
-const playerBoard = document.querySelector("#player-board");
-const npcBoard = document.querySelector("#npc-board");
-
-function renderBoard(container) {
-  for (let i = 0; i < 100; i++) {
-    const element = document.createElement("div");
-    element.classList.add("cell");
-    container.appendChild(element);
-  }
-}
-
-renderBoard(playerBoard);
-renderBoard(npcBoard);
+import { renderBoard } from "./dom.js";
 
 // CREATE PLAYERS
 const player = Player();
 const npc = Player();
+
+// CREATE BOARD FOR BOTH PLAYERS
+const playerBoard = document.querySelector("#player-board");
+const npcBoard = document.querySelector("#npc-board");
 
 // CREATE PLAYERS SHIPS
 const playerCarrier = Ship(5);
@@ -48,3 +38,7 @@ npc.gameboard.placeShip(npcBattleship, [4, 2], "vertical");
 npc.gameboard.placeShip(npcCruiser, [7, 1], "horizontal");
 npc.gameboard.placeShip(npcSubmarine, [2, 7], "vertical");
 npc.gameboard.placeShip(npcDestroyer, [8, 5], "horizontal");
+
+// DISPLAY THE GAME
+renderBoard(player.gameboard, playerBoard);
+renderBoard(npc.gameboard, npcBoard);
