@@ -102,7 +102,7 @@ function setupNpcBoardListeners() {
 
         currentPlayer = "player";
         turnDisplay.textContent = "Player's turn";
-      }, 0);
+      }, 2000);
     });
   });
 }
