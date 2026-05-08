@@ -1,6 +1,4 @@
-# odin-battleship
-
----
+# ODIN-BATTLESHIP
 
 A browser version of the classic Battleship game built with JavaScript, HTML and CSS as part of The Odin Project curriculum.
 
