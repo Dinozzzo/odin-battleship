@@ -8,10 +8,21 @@
     <script type="module" src="game.js"></script>
   </head>
   <body>
-    <h1>Title</h1>
+    <h1>Battleship</h1>
     <div class="board">
-      <div id="player-board"></div>
-      <div id="npc-board"></div>
+      <div class="player">
+        <h2>Player</h2>
+        <div id="player-board"></div>
+      </div>
+      <div class="npc">
+        <h2>Computer</h2>
+        <div id="npc-board"></div>
+      </div>
+    </div>
+    <p id="turn-display">Player's turn</p>
+    <div id="game-over-screen" class="hidden">
+      <h1 id="winner-text"></h1>
+      <button id="restart-button">Restart</button>
     </div>
   </body>
 </html>

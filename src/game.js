@@ -39,6 +39,86 @@ npc.gameboard.placeShip(npcCruiser, [7, 1], "horizontal");
 npc.gameboard.placeShip(npcSubmarine, [2, 7], "vertical");
 npc.gameboard.placeShip(npcDestroyer, [8, 5], "horizontal");
 
-// DISPLAY THE GAME
+// DISPLAY THE GAME AT START
 renderBoard(player.gameboard, playerBoard);
 renderBoard(npc.gameboard, npcBoard);
+
+// PLAYABLE GAME
+let currentPlayer = "player";
+
+const turnDisplay = document.querySelector("#turn-display");
+
+function setupNpcBoardListeners() {
+  const npcCells = npcBoard.querySelectorAll(".cell");
+
+  npcCells.forEach((cell) => {
+    cell.addEventListener("click", () => {
+      if (currentPlayer !== "player") return;
+
+      const x = Number(cell.dataset.x);
+      const y = Number(cell.dataset.y);
+
+      const alreadyAttacked = npc.gameboard.attackedCoordinates.some(
+        (coord) => coord[0] === x && coord[1] === y,
+      );
+
+      if (alreadyAttacked) return;
+
+      npc.gameboard.receiveAttack([x, y]);
+
+      renderBoard(player.gameboard, playerBoard);
+      renderBoard(npc.gameboard, npcBoard);
+
+      // REATTACH LISTENERS AFTER RERENDER
+      setupNpcBoardListeners();
+
+      // CHECK IF NPC LOST
+      if (npc.gameboard.allShipsSunk()) {
+        endGame("PLAYER");
+        return;
+      }
+
+      currentPlayer = "npc";
+      turnDisplay.textContent = "Computer's turn";
+
+      // NPC RANDOM ATTACK
+      setTimeout(() => {
+        const attackX = Math.floor(Math.random() * 10);
+        const attackY = Math.floor(Math.random() * 10);
+
+        player.gameboard.receiveAttack([attackX, attackY]);
+
+        renderBoard(player.gameboard, playerBoard);
+        renderBoard(npc.gameboard, npcBoard);
+
+        // REATTACH LISTENERS AFTER SECOND RERENDER
+        setupNpcBoardListeners();
+
+        // CHECK IF PLAYER LOST
+        if (player.gameboard.allShipsSunk()) {
+          endGame("COMPUTER");
+          return;
+        }
+
+        currentPlayer = "player";
+        turnDisplay.textContent = "Player's turn";
+      }, 0);
+    });
+  });
+}
+
+setupNpcBoardListeners();
+
+// DISPLAY WINNER AND RESTART
+const gameOverScreen = document.querySelector("#game-over-screen");
+const winnerText = document.querySelector("#winner-text");
+const restartButton = document.querySelector("#restart-button");
+
+function endGame(winner) {
+  gameOverScreen.classList.remove("hidden");
+  winnerText.textContent = `${winner} WINS`;
+}
+
+restartButton.addEventListener("click", () => {
+  location.reload();
+});

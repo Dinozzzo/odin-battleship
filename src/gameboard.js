@@ -3,11 +3,13 @@ export { Gameboard };
 function Gameboard() {
   const ships = [];
   const missedAttacks = [];
+  const attackedCoordinates = [];
 
   return {
     // RETURN THE ARRAY OF SHIPS
     ships,
     missedAttacks,
+    attackedCoordinates,
 
     // PLACE THE SHIP ON THE GAMEBOARD
     placeShip(ship, start, direction) {
@@ -51,6 +53,8 @@ function Gameboard() {
       if (!hit) {
         missedAttacks.push(coordinates);
       }
+
+      attackedCoordinates.push(coordinates);
     },
 
     allShipsSunk() {
