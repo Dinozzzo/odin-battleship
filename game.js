@@ -82,27 +82,43 @@ function setupNpcBoardListeners() {
       turnDisplay.textContent = "Computer's turn";
 
       // NPC RANDOM ATTACK
-      setTimeout(() => {
-        const attackX = Math.floor(Math.random() * 10);
-        const attackY = Math.floor(Math.random() * 10);
 
-        player.gameboard.receiveAttack([attackX, attackY]);
+      currentPlayer = "npc";
+      turnDisplay.textContent = "Computer's turn";
 
-        renderBoard(player.gameboard, playerBoard);
-        renderBoard(npc.gameboard, npcBoard);
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          let attackX;
+          let attackY;
+          let alreadyAttacked = true;
 
-        // REATTACH LISTENERS AFTER SECOND RERENDER
-        setupNpcBoardListeners();
+          while (alreadyAttacked) {
+            attackX = Math.floor(Math.random() * 10);
+            attackY = Math.floor(Math.random() * 10);
 
-        // CHECK IF PLAYER LOST
-        if (player.gameboard.allShipsSunk()) {
-          endGame("COMPUTER");
-          return;
-        }
+            alreadyAttacked = player.gameboard.attackedCoordinates.some(
+              (coord) => coord[0] === attackX && coord[1] === attackY,
+            );
+          }
 
-        currentPlayer = "player";
-        turnDisplay.textContent = "Player's turn";
-      }, 2000);
+          player.gameboard.receiveAttack([attackX, attackY]);
+
+          renderBoard(player.gameboard, playerBoard);
+          renderBoard(npc.gameboard, npcBoard);
+
+          // REATTACH LISTENERS AFTER SECOND RERENDER
+          setupNpcBoardListeners();
+
+          // CHECK IF PLAYER LOST
+          if (player.gameboard.allShipsSunk()) {
+            endGame("COMPUTER");
+            return;
+          }
+
+          currentPlayer = "player";
+          turnDisplay.textContent = "Player's turn";
+        }, 2000);
+      });
     });
   });
 }
